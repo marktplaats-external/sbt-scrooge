@@ -56,7 +56,7 @@ object CompileThriftScrooge extends Plugin {
     "directory containing thrift source files"
   )
 
-  val scroogeThriftSources = SettingKey[Seq[File]](
+  val scroogeThriftSources = TaskKey[Seq[File]](
     "scrooge-thrift-sources",
     "thrift source files to compile"
   )
@@ -83,7 +83,7 @@ object CompileThriftScrooge extends Plugin {
    */
   val genThriftSettings: Seq[Setting[_]] = Seq(
     scroogeThriftSourceFolder <<= (sourceDirectory) { _ / "thrift" },
-    scroogeThriftSources <<= (scroogeThriftSourceFolder) { srcDir => (srcDir ** "*.thrift").get },
+    scroogeThriftSources <<= (scroogeThriftSourceFolder) map { srcDir => (srcDir ** "*.thrift").get },
     scroogeThriftOutputFolder <<= (sourceManaged) { _ / "scala" },
     scroogeThriftIncludeFolders := Seq(),
     scroogeThriftNamespaceMap := Map(),
